@@ -17,7 +17,7 @@ namespace Parabank_Automation.StepDefinitions
         public LoginFeatureSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _driver = Parabank_Automation.Drivers.WebDriverManager.Instance;
+            _driver = Drivers.WebDriverManager.Instance;
         }
 
         [When("I enter username as \"(.*)\"")]

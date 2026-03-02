@@ -8,20 +8,20 @@ namespace Parabank_Automation.Tests
         [SetUp]
         public void SetUp()
         {
-            Parabank_Automation.Drivers.WebDriverManager.InitializeDriver();
+            Drivers.WebDriverManager.InitializeDriver();
         }
 
         [TearDown]
         public void TearDown()
         {
-            Parabank_Automation.Drivers.WebDriverManager.QuitDriver();
+            Drivers.WebDriverManager.QuitDriver();
         }
 
         [Test]
         public void ApplicationHomePageLoads()
         {
-            var driver = Parabank_Automation.Drivers.WebDriverManager.Instance;
-            var baseUrl = Parabank_Automation.Config.TestSettings.BaseUrl;
+            var driver = Drivers.WebDriverManager.Instance;
+            var baseUrl = Config.TestSettings.BaseUrl;
             if (string.IsNullOrWhiteSpace(baseUrl))
                 throw new InvalidOperationException("BaseUrl is not configured. Set Config/urls.json or Config/testsettings.json with BaseUrl.");
 

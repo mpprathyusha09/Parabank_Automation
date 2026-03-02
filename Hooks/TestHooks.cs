@@ -19,7 +19,7 @@ namespace Parabank_Automation.Hooks
         [BeforeScenario]
         public void BeforeScenario()
         {
-            Parabank_Automation.Drivers.WebDriverManager.InitializeDriver();
+            Drivers.WebDriverManager.InitializeDriver();
         }
 
         [AfterScenario]
@@ -30,7 +30,7 @@ namespace Parabank_Automation.Hooks
                 // if the scenario failed, capture diagnostics
                 if (_scenarioContext.TestError != null)
                 {
-                    var driver = Parabank_Automation.Drivers.WebDriverManager.Instance;
+                    var driver = Drivers.WebDriverManager.Instance;
                     if (driver != null)
                     {
                         var resultsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestResults");
@@ -64,7 +64,7 @@ namespace Parabank_Automation.Hooks
             }
             finally
             {
-                Parabank_Automation.Drivers.WebDriverManager.QuitDriver();
+               Drivers.WebDriverManager.QuitDriver();
             }
         }
 

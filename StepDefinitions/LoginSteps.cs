@@ -15,7 +15,7 @@ namespace Parabank_Automation.StepDefinitions
         public LoginSteps(ScenarioContext scenarioContext)
         {
             _scenarioContext = scenarioContext;
-            _driver = Parabank_Automation.Drivers.WebDriverManager.Instance;
+            _driver = Drivers.WebDriverManager.Instance;
         }
 
         [When("I login with registered credentials")]

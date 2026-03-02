@@ -10,8 +10,8 @@ namespace Parabank_Automation.StepDefinitions
         [Given("I open the application")]
         public void GivenIOpenTheApplication()
         {
-            var driver = Parabank_Automation.Drivers.WebDriverManager.Instance;
-            var baseUrl = Parabank_Automation.Config.TestSettings.BaseUrl;
+            var driver = Drivers.WebDriverManager.Instance;
+            var baseUrl = Config.TestSettings.BaseUrl;
             if (string.IsNullOrWhiteSpace(baseUrl))
                 throw new InvalidOperationException("BaseUrl is not configured. Set Config/urls.json or Config/testsettings.json with BaseUrl.");
 
@@ -21,7 +21,7 @@ namespace Parabank_Automation.StepDefinitions
         [Given("I navigate to the registration page")]
         public void GivenINavigateToTheRegistrationPage()
         {
-            var driver = Parabank_Automation.Drivers.WebDriverManager.Instance;
+            var driver = Drivers.WebDriverManager.Instance;
             var registerLink = driver.FindElement(OpenQA.Selenium.By.LinkText("Register"));
             registerLink.Click();
         }
@@ -29,7 +29,7 @@ namespace Parabank_Automation.StepDefinitions
         [Then("the application home page is displayed")]
         public void ThenTheApplicationHomePageIsDisplayed()
         {
-            var driver = Parabank_Automation.Drivers.WebDriverManager.Instance;
+            var driver = Drivers.WebDriverManager.Instance;
             Assert.IsTrue(driver.PageSource.ToLower().Contains("customer login") || driver.Url.Contains("index.htm"));
         }
     }

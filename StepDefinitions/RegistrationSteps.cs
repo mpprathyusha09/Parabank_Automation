@@ -51,7 +51,7 @@ namespace Parabank_Automation.StepDefinitions
             while (attempt < maxAttempts && !registered)
             {
                 attempt++;
-                var defaultPassword = Parabank_Automation.Config.TestSettings.DefaultPassword;
+                var defaultPassword = Config.TestSettings.DefaultPassword;
                 if (string.IsNullOrWhiteSpace(defaultPassword))
                     defaultPassword = "SecureP@ss1"; // fallback for local runs; override via TEST_PASSWORD env var or Config/credentials.json
 
@@ -96,7 +96,7 @@ namespace Parabank_Automation.StepDefinitions
                     // clear username and retry loop will create a new username
                     try
                     {
-                        var usernameEl = _driver.FindElement(OpenQA.Selenium.By.Id("customer.username"));
+                        var usernameEl = _driver.FindElement(By.Id("customer.username"));
                         usernameEl.Clear();
                     }
                     catch { }
@@ -115,7 +115,7 @@ namespace Parabank_Automation.StepDefinitions
         {
             _registrationPage = new RegistrationPage(_driver);
 
-            var defaultPassword = Parabank_Automation.Config.TestSettings.DefaultPassword;
+            var defaultPassword = Config.TestSettings.DefaultPassword;
             if (string.IsNullOrWhiteSpace(defaultPassword))
                 defaultPassword = "Password1"; // fallback for mismatch scenario
 
@@ -137,7 +137,7 @@ namespace Parabank_Automation.StepDefinitions
         {
             _registrationPage = new RegistrationPage(_driver);
 
-            var defaultPassword = Parabank_Automation.Config.TestSettings.DefaultPassword;
+            var defaultPassword = Config.TestSettings.DefaultPassword;
             if (string.IsNullOrWhiteSpace(defaultPassword))
                 defaultPassword = "SecureP@ss1"; // fallback for missing-username scenario
 
@@ -168,13 +168,13 @@ namespace Parabank_Automation.StepDefinitions
                 {
                     if (_driver.Url.Contains("overview.htm")) return true;
 
-                    var logoutLink = _driver.FindElements(OpenQA.Selenium.By.LinkText("Log Out"));
+                    var logoutLink = _driver.FindElements(By.LinkText("Log Out"));
                     if (logoutLink.Any(e => e.Displayed)) return true;
 
-                    var headers = _driver.FindElements(OpenQA.Selenium.By.CssSelector("h1.title"));
+                    var headers = _driver.FindElements(By.CssSelector("h1.title"));
                     if (headers.Any(h => h.Displayed && h.Text.Trim().StartsWith("Welcome"))) return true;
 
-                    var rightPanelParagraphs = _driver.FindElements(OpenQA.Selenium.By.CssSelector("div#rightPanel p"));
+                    var rightPanelParagraphs = _driver.FindElements(By.CssSelector("div#rightPanel p"));
                     if (rightPanelParagraphs.Any(p => p.Displayed && p.Text.ToLower().Contains("your account was created"))) return true;
                 }
                 catch
