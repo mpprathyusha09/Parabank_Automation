@@ -9,7 +9,6 @@ namespace Parabank_Automation.Drivers
         {
             var options = new ChromeOptions();
             options.AddArgument("--start-maximized");
-            // Add other options as needed (headless, disable-gpu, etc.)
             return new ChromeDriver(options);
         }
     }

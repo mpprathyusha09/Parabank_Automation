@@ -24,7 +24,6 @@ namespace Parabank_Automation.StepDefinitions
             var username = _scenarioContext.ContainsKey("RegisteredUsername") ? _scenarioContext["RegisteredUsername"] as string : null;
             var password = _scenarioContext.ContainsKey("RegisteredPassword") ? _scenarioContext["RegisteredPassword"] as string : null;
 
-            // require configured credentials if registration did not provide them
             if (string.IsNullOrWhiteSpace(username))
                 username = Parabank_Automation.Config.TestSettings.DefaultUsername;
             if (string.IsNullOrWhiteSpace(password))
@@ -35,35 +34,28 @@ namespace Parabank_Automation.StepDefinitions
                 throw new InvalidOperationException("No credentials available. Provide registered credentials from the scenario or configure Config/credentials.json with DefaultUsername and DefaultPassword.");
             }
 
-            Assert.IsNotNull(username, "Registered username not found in scenario context.");
-            Assert.IsNotNull(password, "Registered password not found in scenario context.");
-
-            var driver = _driver;
-
             // if already logged in, perform logout first
             try
             {
-                var logout = driver.FindElements(OpenQA.Selenium.By.LinkText("Log Out")).FirstOrDefault();
+                var logout = _driver.FindElements(OpenQA.Selenium.By.LinkText("Log Out")).FirstOrDefault();
                 if (logout != null && logout.Displayed)
                 {
                     logout.Click();
-                    // wait to be back on the home/login page
-                    WaitForCondition(() => driver.Url.Contains("index.htm") || driver.FindElements(OpenQA.Selenium.By.Name("username")).Any(), 5000);
+                    WaitForCondition(() => _driver.Url.Contains("index.htm") || _driver.FindElements(OpenQA.Selenium.By.Name("username")).Any(), 5000);
                 }
             }
             catch { }
 
             // ensure we're on the home page with the login form
-            if (!driver.FindElements(OpenQA.Selenium.By.Name("username")).Any())
+            if (!_driver.FindElements(OpenQA.Selenium.By.Name("username")).Any())
             {
-                driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
-                WaitForCondition(() => driver.FindElements(OpenQA.Selenium.By.Name("username")).Any(), 5000);
+                _driver.Navigate().GoToUrl("https://parabank.parasoft.com/parabank/index.htm");
+                WaitForCondition(() => _driver.FindElements(OpenQA.Selenium.By.Name("username")).Any(), 5000);
             }
 
-            var loginPage = new LoginPage(driver);
+            var loginPage = new LoginPage(_driver);
             loginPage.Login(username, password);
 
-            // wait for login to complete (redirect or UI change)
             var succeeded = WaitForCondition(() => _driver.Url.Contains("overview.htm") || _driver.PageSource.Contains("Log Out") || _driver.PageSource.Contains("Welcome"), 10000);
             Assert.IsTrue(succeeded, "Expected login to succeed and user to be signed in.");
         }
@@ -71,7 +63,6 @@ namespace Parabank_Automation.StepDefinitions
         [Then("the user is logged in")]
         public void ThenTheUserIsLoggedIn()
         {
-            // basic verification: presence of logout link or overview page
             var loggedIn = _driver.PageSource.Contains("Log Out") || _driver.Url.Contains("overview.htm") || _driver.PageSource.Contains("Welcome");
             Assert.IsTrue(loggedIn, "Expected user to be logged in after performing login.");
         }
