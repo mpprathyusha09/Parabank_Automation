@@ -53,7 +53,7 @@ namespace Parabank_Automation.StepDefinitions
                 attempt++;
                 var defaultPassword = Parabank_Automation.Config.TestSettings.DefaultPassword;
                 if (string.IsNullOrWhiteSpace(defaultPassword))
-                    throw new InvalidOperationException("DefaultPassword is not configured. Set Config/credentials.json or Config/testsettings.json with DefaultPassword.");
+                    defaultPassword = "SecureP@ss1"; // fallback for local runs; override via TEST_PASSWORD env var or Config/credentials.json
 
                 model = new RegistrationModel
                 {
@@ -117,7 +117,7 @@ namespace Parabank_Automation.StepDefinitions
 
             var defaultPassword = Parabank_Automation.Config.TestSettings.DefaultPassword;
             if (string.IsNullOrWhiteSpace(defaultPassword))
-                throw new InvalidOperationException("DefaultPassword is not configured. Set Config/credentials.json or Config/testsettings.json with DefaultPassword.");
+                defaultPassword = "Password1"; // fallback for mismatch scenario
 
             var model = new RegistrationModel
             {
@@ -139,7 +139,7 @@ namespace Parabank_Automation.StepDefinitions
 
             var defaultPassword = Parabank_Automation.Config.TestSettings.DefaultPassword;
             if (string.IsNullOrWhiteSpace(defaultPassword))
-                throw new InvalidOperationException("DefaultPassword is not configured. Set Config/credentials.json or Config/testsettings.json with DefaultPassword.");
+                defaultPassword = "SecureP@ss1"; // fallback for missing-username scenario
 
             var model = new RegistrationModel
             {

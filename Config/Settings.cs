@@ -18,6 +18,14 @@ namespace Parabank_Automation.Config
         {
             try
             {
+                // environment variable overrides (recommended for CI/secret management)
+                var envBase = Environment.GetEnvironmentVariable("TEST_BASEURL");
+                var envUser = Environment.GetEnvironmentVariable("TEST_USERNAME");
+                var envPass = Environment.GetEnvironmentVariable("TEST_PASSWORD");
+                if (!string.IsNullOrWhiteSpace(envBase)) BaseUrl = envBase;
+                if (!string.IsNullOrWhiteSpace(envUser)) DefaultUsername = envUser;
+                if (!string.IsNullOrWhiteSpace(envPass)) DefaultPassword = envPass;
+
                 // Prefer separate files: Config/urls.json and Config/credentials.json
                 var baseDir = AppDomain.CurrentDomain.BaseDirectory;
                 var urlsPath = Path.Combine(baseDir, "Config", "urls.json");
